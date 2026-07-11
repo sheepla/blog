@@ -1,6 +1,6 @@
 ---
 title: "Astroでブログを作成した"
-description: "Astroでブログを作成しました。"
+description: "Astroでブログを作成した記録と背景"
 pubDatetime: 2026-07-11
 tags: ["Blog", "Astro"]
 featured: true
