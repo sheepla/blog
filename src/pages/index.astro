@@ -1,6 +1,16 @@
 ---
 import { getCollection } from "astro:content";
 import { getRelativeLocaleUrl } from "astro:i18n";
+import {
+  Computer,
+  Archive,
+  Search,
+  UserRound,
+  Pen,
+  Folder,
+  Axis3d,
+  AppWindow,
+} from "@lucide/astro";
 import IconRss from "@/assets/icons/IconRss.svg";
 import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
 import Layout from "@/layouts/Layout.astro";
@@ -8,10 +18,12 @@ import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import Socials from "@/components/Socials.astro";
 import Card from "@/components/Card.astro";
+import PortfolioCard from "@/components/PortfolioCard.astro";
 import LinkButton from "@/components/LinkButton.astro";
 import { getSortedPosts } from "@/utils/getSortedPosts";
 import { useTranslations } from "@/i18n";
 import config from "@/config";
+import type { AstroComponentFactory } from "astro/runtime/server/index.js";
 
 const { socials, posts: postsConfig } = config;
 
@@ -23,6 +35,50 @@ const sortedPosts = getSortedPosts(posts);
 const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
 const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
 const homePath = getRelativeLocaleUrl(locale, "");
+
+type PortfolioLink = {
+  name: string;
+  description: string;
+  href: string;
+  icon: AstroComponentFactory;
+};
+
+const portfolioLinks: PortfolioLink[] = [
+  {
+    name: "ブログ",
+    description: "このブログのソースです。Astroで構築されています。",
+    href: "https://github.com/sheepla/blog",
+    icon: Pen,
+  },
+  {
+    name: "VExplorer",
+    description:
+      "C#とWPFで書かれた、VimmerのためのWindows用ファイルマネージャです。マウスとキーボードの両方で軽快に動作します。",
+    href: "https://github.com/sheepla/VExplorer",
+    icon: Folder,
+  },
+  {
+    name: "lshw-tui",
+    description:
+      "LinuxのハードウェアツリーをTUIでサクっと確認できるTUIツールです。Rustとratatuiで構築されています。",
+    href: "https://github.com/sheepla/lshw-tui",
+    icon: Computer,
+  },
+  {
+    name: "AxisEndpoints",
+    description:
+      "ASP.NET CoreでRequest-Endpoint-ResponseパターンやVertical Slice Architectureを実現するための補助ライブラリです。",
+    href: "https://github.com/sheepla/AxisEndpoints",
+    icon: Axis3d,
+  },
+  {
+    name: "wmish",
+    description:
+      "WMI (Windows Management Instrumentation) を簡単に叩けるコマンドラインツールです。",
+    href: "https://github.com/sheepla/wmish",
+    icon: AppWindow,
+  },
+];
 
 const title = "SheepLab.";
 const description =
@@ -69,6 +125,18 @@ const description =
           </div>
         )
       }
+    </section>
+
+    <section id="portfolio" class="border-border border-b py-12">
+      <div class="mb-6 flex items-end justify-between gap-4">
+        <div>
+          <h2 class="text-2xl font-semibold tracking-wide">Projects</h2>
+        </div>
+      </div>
+
+      <ul class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        {portfolioLinks.map(item => <PortfolioCard {...item} />)}
+      </ul>
     </section>
 
     {
