@@ -2,7 +2,7 @@ import { defineAstroPaperConfig } from "./src/types/config";
 
 export default defineAstroPaperConfig({
   site: {
-    url: "https://sheepla.github.io/blog/",
+    url: "https://sheepla.github.io/sheeplab",
     title: "SheepLab.",
     description: "Sheeplaの個人ブログ",
     author: "Sheepla",
