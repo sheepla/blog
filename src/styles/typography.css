@@ -13,8 +13,8 @@
       @apply text-foreground mb-3;
     }
 
-    h3 {
-      @apply italic;
+    h2 {
+      @apply border-muted border-b-2 p-2;
     }
 
     p,

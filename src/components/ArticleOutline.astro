@@ -1,0 +1,91 @@
+---
+import type { MarkdownHeading } from "astro";
+import { renderArticleOutline } from "@/utils/buildArticleOutline";
+
+type Props = {
+  headings: MarkdownHeading[];
+};
+
+const { headings } = Astro.props;
+const outlineHtml = renderArticleOutline(headings);
+---
+
+{
+  outlineHtml.length > 0 && (
+    <aside
+      data-article-outline
+      class="hidden lg:sticky lg:top-24 lg:block lg:self-start"
+      aria-label="Article outline"
+    >
+      <div class="border-border bg-background/80 max-h-[calc(100dvh-7rem)] overflow-y-auto rounded-md border p-3 shadow-sm backdrop-blur-sm">
+        <div class="mb-3 flex items-center justify-between gap-2">
+          <h2 class="text-muted-foreground text-[0.65rem] font-semibold tracking-[0.2em] uppercase">
+            Outline
+          </h2>
+          <span class="text-muted-foreground/70 text-[0.65rem]">Scroll</span>
+        </div>
+        <nav>
+          <ul class="space-y-0.5" set:html={outlineHtml} />
+        </nav>
+      </div>
+    </aside>
+  )
+}
+
+<script is:inline data-astro-rerun>
+  function initArticleOutline() {
+    const outline = document.querySelector("[data-article-outline]");
+    if (!outline) return;
+
+    const links = Array.from(outline.querySelectorAll("[data-outline-link]"));
+    const headings = links
+      .map(link => {
+        const href = link.getAttribute("href");
+        if (!href?.startsWith("#")) return null;
+        const target = document.getElementById(href.slice(1));
+        return target ? { link, target } : null;
+      })
+      .filter(Boolean);
+
+    if (headings.length === 0) return;
+
+    const setActive = id => {
+      for (const { link } of headings) {
+        const isActive = link.getAttribute("href") === `#${id}`;
+        link.classList.toggle("bg-accent/10", isActive);
+        link.classList.toggle("text-accent", isActive);
+        link.classList.toggle("font-medium", isActive);
+        if (isActive) {
+          link.setAttribute("aria-current", "location");
+        } else {
+          link.removeAttribute("aria-current");
+        }
+      }
+    };
+
+    setActive(headings[0].target.id);
+
+    const observer = new IntersectionObserver(
+      entries => {
+        const visible = entries
+          .filter(entry => entry.isIntersecting)
+          .map(entry => entry.target.id);
+
+        if (visible.length > 0) {
+          setActive(visible[visible.length - 1]);
+        }
+      },
+      {
+        root: null,
+        rootMargin: "-18% 0px -72% 0px",
+        threshold: 0,
+      }
+    );
+
+    for (const { target } of headings) {
+      observer.observe(target);
+    }
+  }
+
+  initArticleOutline();
+</script>

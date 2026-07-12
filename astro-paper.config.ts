@@ -4,7 +4,7 @@ export default defineAstroPaperConfig({
   site: {
     url: "https://sheepla.github.io/blog/",
     title: "SheepLab.",
-    description: "Sheeplaの個人ブログ",
+    description: "Sheepla's personal blog",
     author: "Sheepla",
     profile: "https://sheepla.github.io/",
     ogImage: "default-og.jpg",
