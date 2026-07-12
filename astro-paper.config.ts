@@ -2,7 +2,7 @@ import { defineAstroPaperConfig } from "./src/types/config";
 
 export default defineAstroPaperConfig({
   site: {
-    url: "https://astro-paper.pages.dev/",
+    url: "https://sheepla.github.io/blog/",
     title: "SheepLab.",
     description: "Sheeplaの個人ブログ",
     author: "Sheepla",
@@ -24,7 +24,7 @@ export default defineAstroPaperConfig({
     showBackButton: true,
     editPost: {
       enabled: true,
-      url: "https://github.com/satnaing/astro-paper/edit/main/",
+      url: "https://github.com/sheepla/blog/edit/main/",
     },
     search: "pagefind",
   },
